@@ -1,0 +1,30 @@
+SELECT
+    A.CONTA,
+    subqueryContaC.CONTAC,
+    A.CGC CNPJ,
+    A.NOME ASSOCIADO,
+    B.COD_ATIVIDADE,
+    B.ATIVIDADE
+FROM
+    FACMUTUO.C_CAD A
+    LEFT JOIN FACMUTUO.C_ATIVIDADE B ON A.ATIVIDADE = B.COD_ATIVIDADE
+    LEFT JOIN (
+        SELECT
+            A.CONTA,
+            A.CONTAC
+        FROM
+            FACMUTUO.CC_CONTA A,
+            FACMUTUO.CC_CAD B,
+            FACMUTUO.C_CAD C
+        WHERE
+            A.CONTAC = B.CONTAC
+            AND A.CONTA = C.CONTA
+    ) subqueryContaC ON A.CONTA = subqueryContaC.CONTA
+    INNER JOIN (
+        SELECT CONTA, TITULAR FROM CC_CADASSOC
+    ) queryTitular ON A.CONTA = queryTitular.CONTA
+WHERE
+    A.CGC IS NOT NULL
+    AND A.DEMISSAO IS NULL
+    AND TITULAR = 'T'
+ORDER BY NOME

@@ -1,0 +1,14 @@
+SELECT
+    COALESCE(A_SDA.CONTA, queryAplicacao.CONTA) AS CONTA,
+    A_SDA.SD,
+    queryAplicacao.APLICACAO
+FROM FACMUTUO.A_SDA A_SDA
+FULL OUTER JOIN (
+    SELECT
+        CONTA,
+        SUM(VALOR) AS APLICACAO
+    FROM F_CTOPEN
+    WHERE NOME = 'Aplicação'
+    GROUP BY CONTA
+) queryAplicacao
+ON A_SDA.CONTA = queryAplicacao.CONTA

@@ -1,0 +1,82 @@
+SELECT
+    CONTA,
+    CPF,
+    TITULAR AS ASSOCIADO,
+    APELIDO AS GERENTE,
+    AG AS UNID,
+    SALDOAD,
+    DIASAD,
+    NIVEL,
+    DIAS
+FROM (
+    SELECT
+        D.CONTA,
+        D.CPF,
+        E.APELIDO,
+        E.EMAIL,
+        A.FISICA,
+        D.DT_SERASA,
+        CASE WHEN D.EXECUCAO = 'T' THEN D.DT_EXECUCAO ELSE NULL END DT_EXECUCAO,
+        RPAD(A.COD_AGENCIA, 4) AG,
+        FACMUTUO.FACCOR_FUNCTIONS.LIMITE_CHESP(A.CONTAC,'30/07/2023') LIMITE_CHESP,
+        (-1 * (FACMUTUO.FACCOR_FUNCTIONS.PEGASALDODIA(A.CONTAC, '30/07/2023') + FACMUTUO.FACCOR_FUNCTIONS.LIMITE_CHESP(A.CONTAC, '30/07/2023'))) SALDOAD,
+        FACMUTUO.FACCOR_FUNCTIONS.PEGASALDODIABLOQ(A.CONTAC, '30/07/2023') SALDO_BLOQ,
+        RPAD(A.TITULAR, 25) TITULAR,
+        FACMUTUO.FACCOR_FUNCTIONS.NUMDIASAD(A.CONTAC, '30/07/2023') DIASAD,
+        C.DESCRICAO NIVEL,
+        E.NOME AGENTE,
+        (
+            SELECT
+                MAX(TO_DATE('30/07/2023') - Z.VENC_FIM)
+            FROM
+                FACMUTUO.E_CTOPEN Z,
+                FACMUTUO.C_CAD W,
+                FACMUTUO.E_CART Y,
+                FACMUTUO.E_PRODUTO V,
+                FACMUTUO.E_LF K,
+                FACMUTUO.C_CAD S,
+                FACMUTUO.CC_AGENCIA T
+            WHERE
+                TO_DATE('30/07/2023') - Z.VENC_FIM >= 1
+                AND SUBSTR(Z.CONTRATO, 10, 3) <> '000'
+                AND Z.PARC_GER >= Z.NUM_PARC
+                AND Z.PGTO_FIM >= Z.VENC_FIM
+                AND Z.SALDO > 0
+                AND Y.COD_CART = Z.COD_CART
+                AND K.COD_LF = Z.COD_LF
+                AND V.COD_PRODUTO = K.COD_PRODUTO
+                AND Z.CONTA = W.CONTA
+                AND ((W.SITUACAO = 'Normal') OR (W.SITUACAO = 'Afastado') OR (substr(W.SITUACAO, 1, 3) = 'Dem') OR (W.SITUACAO = 'Inativo'))
+                AND W.AGENTE = S.CONTA
+                AND W.COD_AGENCIA = T.COD_AGENCIA
+                AND W.CONTA = D.CONTA
+        ) AS DIAS
+    FROM
+        FACMUTUO.CC_CONTA A,
+        FACMUTUO.CC_CAD B,
+        FACMUTUO.E_NIVEL C,
+        FACMUTUO.C_CAD D,
+        FACMUTUO.C_CAD E,
+        FACMUTUO.CC_AGENCIA F
+    WHERE
+        A.CONTAC = B.CONTAC
+        AND B.NV_ATUAL = C.NIVEL
+        AND A.CONTA = D.CONTA
+        AND D.COD_AGENCIA = F.COD_AGENCIA
+        AND D.AGENTE = E.CONTA(+)
+)
+WHERE SALDOAD > 0
+GROUP BY
+    CONTA,
+    CPF,
+    TITULAR,
+    APELIDO,
+    AG,
+    SALDOAD,
+    DIASAD,
+    NIVEL,
+    DIAS
+ORDER BY APELIDO, AG, TITULAR
+
+
+-- SELECT CONTA, SALDO AS VLR_VCTO FROM FACMUTUO.E_CTOPEN G
