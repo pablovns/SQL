@@ -202,20 +202,22 @@ FROM
                             SUM(NVL(CC.SALDO, 0)) AS SALDO_CCH
                         FROM
                             FACMUTUO.E_GPSOL G
-                            LEFT JOIN FACMUTUO.E_ASSOC_GPSOL GA ON G.ID_GPSOL = GA.ID_GPSOL
-                            LEFT JOIN (
+                            INNER JOIN FACMUTUO.E_ASSOC_GPSOL GA ON G.ID_GPSOL = GA.ID_GPSOL
+                            INNER JOIN (
                                 SELECT
-                                    DISTINCT CA.CONTA,
+                                    CA.CONTA,
                                     SUM(
                                         FACMUTUO.FACCOR_FUNCTIONS.PEGASALDOAD(CA.CONTAC, SYSDATE) + FACMUTUO.FACCOR_FUNCTIONS.LIMITE_CHESP(CA.CONTAC, SYSDATE)
                                     ) AS SALDO
                                 FROM
                                     FACMUTUO.CC_CADASSOC CA
                                 WHERE
-                                    TITULAR = 'T'
+                                    CA.TITULAR = 'T'
+                                    AND CA.CONTA LIKE '049840000'
                                 GROUP BY
                                     CA.CONTA
                             ) CC ON GA.CONTA = CC.CONTA
+                        WHERE CC.CONTA LIKE '049840000'
                         GROUP BY
                             G.ID_GPSOL,
                             G.DESCR_GRUPO,
@@ -296,7 +298,7 @@ FROM
     ) T ON F.CONTAC = T.CONTAC
 WHERE
     C.ASSOCIADO = 'T'
-    AND C.SITUACAO = 'Normal'
-    AND C.CPF || C.CGC LIKE '020.013.849-98'
+    AND C.SITUACAO = 'Normal' --AND C.CPF || C.CGC LIKE '020.013.849-98'
+    AND C.CONTA LIKE '049840000'
 ORDER BY
-    ADM_COOP DESC
+    P.DESCR_GRUPO --C.ADM_COOP DESC
