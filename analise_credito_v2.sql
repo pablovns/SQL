@@ -1,7 +1,6 @@
 SELECT
     G.CONTAC,
     C.CONTA,
-    C.MATRICULA,
     COALESCE(
         REPLACE(REPLACE(C.CPF, '.', ''), '-', ''),
         REPLACE(
@@ -11,13 +10,7 @@ SELECT
         )
     ) CPF_CNPJ,
     C.NOME,
-    E.APELIDO AS AGENTE,
-    AG.COD_AGENCIA UNID,
-    AG.NOME AS UNIDADE,
-    I.COD_PACOTE,
-    I.DESCRICAO AS PACOTE,
     C.DEMISSAO,
-    H.DT_ABERT DT_ABERT_CC,
     CASE
         C.NIVEL
         WHEN 1 THEN 'AA'
@@ -34,7 +27,6 @@ SELECT
     C.ADM_COOP,
     C.SITUACAO,
     C.FISICA,
-    D.NOME CIDADE,
     C.MOTIVO_DEMISSAO,
     C.NASCIMENTO DT_NASC,
     FACMUTUO.ANOSENTREDATAS(C.NASCIMENTO, SYSDATE) AS IDADE,
@@ -50,19 +42,14 @@ SELECT
     R.RISCO,
     T.DEBITO,
     T.CREDITO,
-    C.CONJUGUE CONJUGE,
+    C.CONJUGUE,
     C.CPFCONJUGE
 FROM
     FACMUTUO.C_CAD C
     LEFT JOIN FACMUTUO.C_CADUNI CU ON CU.CONTA = C.CONTA
-    LEFT JOIN FACMUTUO.C_CIDADE D ON C.COD_CID = D.COD_CID
-    LEFT JOIN FACMUTUO.C_CAD E ON C.AGENTE = E.CONTA
-    LEFT JOIN FACMUTUO.CC_AGENCIA AG ON AG.COD_AGENCIA = C.COD_AGENCIA
     LEFT JOIN FACMUTUO.CC_CADASSOC F ON C.CONTA = F.CONTA
     AND F.TITULAR = 'T'
     LEFT JOIN FACMUTUO.CC_CONTA G ON F.CONTAC = G.CONTAC
-    LEFT JOIN FACMUTUO.CC_CAD H ON F.CONTAC = H.CONTAC
-    LEFT JOIN FACMUTUO.CC_PACOTE I ON H.COD_PACOTE = I.COD_PACOTE
     LEFT JOIN FACMUTUO.E_ASSOC_GPSOL O ON C.CONTA = O.CONTA
     LEFT JOIN FACMUTUO.E_GPSOL P ON O.ID_GPSOL = P.ID_GPSOL
     LEFT JOIN FACMUTUO.A_SD Y ON C.CONTA = Y.CONTA
@@ -187,54 +174,43 @@ FROM
         FROM
             (
                 SELECT
-                    DSGRUPO,
-                    CDGRUPO,
-                    SUM(SALDO_EMP) AS SALDO_EMP,
-                    SUM(SALDO_CCH) AS SALDO_CCH
+                    G.ID_GPSOL AS CDGRUPO,
+                    G.DESCR_GRUPO AS DSGRUPO,
+                    SUM(
+                        FACMUTUO.EMPREST.PEGASOSALDO(1, GA.CONTA, SYSDATE)
+                    ) AS SALDO_EMP,
+                    SUM(NVL(CC.SALDO, 0)) AS SALDO_CCH
                 FROM
-                    (
+                    FACMUTUO.E_GPSOL G
+                    INNER JOIN FACMUTUO.E_ASSOC_GPSOL GA ON G.ID_GPSOL = GA.ID_GPSOL
+                    INNER JOIN (
                         SELECT
-                            G.ID_GPSOL AS CDGRUPO,
-                            G.DESCR_GRUPO AS DSGRUPO,
+                            DISTINCT CA.CONTA,
                             SUM(
-                                FACMUTUO.EMPREST.PEGASOSALDO(1, GA.CONTA, SYSDATE)
-                            ) AS SALDO_EMP,
-                            SUM(NVL(CC.SALDO, 0)) AS SALDO_CCH
+                                FACMUTUO.FACCOR_FUNCTIONS.PEGASALDOAD(CA.CONTAC, SYSDATE) + FACMUTUO.FACCOR_FUNCTIONS.LIMITE_CHESP(CA.CONTAC, SYSDATE)
+                            ) AS SALDO
                         FROM
-                            FACMUTUO.E_GPSOL G
-                            INNER JOIN FACMUTUO.E_ASSOC_GPSOL GA ON G.ID_GPSOL = GA.ID_GPSOL
+                            FACMUTUO.CC_CADASSOC CA
+                            LEFT JOIN FACMUTUO.E_ASSOC_GPSOL GP ON CA.CONTA = GP.CONTA
                             INNER JOIN (
                                 SELECT
-                                    DISTINCT CA.CONTA,
-                                    SUM(
-                                        FACMUTUO.FACCOR_FUNCTIONS.PEGASALDOAD(CA.CONTAC, SYSDATE) + FACMUTUO.FACCOR_FUNCTIONS.LIMITE_CHESP(CA.CONTAC, SYSDATE)
-                                    ) AS SALDO
+                                    GP.ID_GPSOL
                                 FROM
-                                    FACMUTUO.CC_CADASSOC CA
-                                    LEFT JOIN FACMUTUO.E_ASSOC_GPSOL GP ON CA.CONTA = GP.CONTA
-                                    INNER JOIN (
-                                        SELECT
-                                            GP.ID_GPSOL
-                                        FROM
-                                            FACMUTUO.E_ASSOC_GPSOL GP
-                                            LEFT JOIN FACMUTUO.C_CAD C ON GP.CONTA = C.CONTA
-                                        WHERE
-                                            C.CPF || C.CGC LIKE '241.408.489-87'
-                                    ) F_GP ON GP.ID_GPSOL = F_GP.ID_GPSOL -- FILTRO POR DOCUMENTO NA SOMA PRA OTIMIZAR O TEMPO DE EXECUÇÃO
-                                    -- SOMA APENAS OS SALDOS DE QUEM PERTENCE AO GRUPO SOLIDARIO DA PESSOA COM O DOCUMENTO INFORMADO ACIMA
+                                    FACMUTUO.E_ASSOC_GPSOL GP
+                                    LEFT JOIN FACMUTUO.C_CAD C ON GP.CONTA = C.CONTA
                                 WHERE
-                                    CA.TITULAR = 'T'
-                                GROUP BY
-                                    CA.CONTA
-                            ) CC ON GA.CONTA = CC.CONTA
+                                    C.CPF || C.CGC LIKE '241.408.489-87'
+                            ) F_GP ON GP.ID_GPSOL = F_GP.ID_GPSOL -- FILTRO POR DOCUMENTO NA SOMA PRA OTIMIZAR O TEMPO DE EXECUÇÃO
+                            -- SOMA APENAS OS SALDOS DE QUEM PERTENCE AO GRUPO SOLIDARIO DA PESSOA COM O DOCUMENTO INFORMADO ACIMA
+                        WHERE
+                            CA.TITULAR = 'T'
                         GROUP BY
-                            G.ID_GPSOL,
-                            G.DESCR_GRUPO,
-                            G.RESPONSAVEL
-                    )
+                            CA.CONTA
+                    ) CC ON GA.CONTA = CC.CONTA
                 GROUP BY
-                    DSGRUPO,
-                    CDGRUPO
+                    G.ID_GPSOL,
+                    G.DESCR_GRUPO,
+                    G.RESPONSAVEL
             )
         GROUP BY
             DSGRUPO,
@@ -248,59 +224,67 @@ FROM
         FROM
             (
                 SELECT
-                    CONTAC,
-                    SUM(VALOR) AS CREDITO,
+                    MVO.CONTAC,
+                    SUM(MVO.VALOR) AS CREDITO,
                     0 AS DEBITO
                 FROM
-                    FACMUTUO.CC_MVOPEN
+                    FACMUTUO.CC_MVOPEN MVO
+                    INNER JOIN FACMUTUO.CC_CADASSOC CC_A ON MVO.CONTAC = CC_A.CONTAC
+                    INNER JOIN FACMUTUO.C_CAD C ON CC_A.CONTA = C.CONTA AND C.CPF || C.CGC LIKE '241.408.489-87'
                 WHERE
-                    DATA BETWEEN '05/09/2023'
+                    MVO.DATA BETWEEN '05/09/2023'
                     AND '04/12/2023'
-                    AND DC = 'C'
+                    AND MVO.DC = 'C'
                 GROUP BY
-                    CONTAC
+                    MVO.CONTAC
                 UNION
                 ALL
                 SELECT
-                    CONTAC,
-                    SUM(VALOR) AS CREDITO,
+                    MVC.CONTAC,
+                    SUM(MVC.VALOR) AS CREDITO,
                     0 AS DEBITO
                 FROM
-                    FACMUTUO.CC_MVCLOS
+                    FACMUTUO.CC_MVCLOS MVC
+                    INNER JOIN FACMUTUO.CC_CADASSOC CC_A ON MVC.CONTAC = CC_A.CONTAC
+                    INNER JOIN FACMUTUO.C_CAD C ON CC_A.CONTA = C.CONTA AND C.CPF || C.CGC LIKE '241.408.489-87'
                 WHERE
-                    DATA BETWEEN '05/09/2023'
+                    MVC.DATA BETWEEN '05/09/2023'
                     AND '04/12/2023'
-                    AND DC = 'C'
+                    AND MVC.DC = 'C'
                 GROUP BY
-                    CONTAC
+                    MVC.CONTAC
                 UNION
                 ALL
                 SELECT
-                    CONTAC,
+                    MVO.CONTAC,
                     0 AS CREDITO,
-                    SUM(VALOR) AS DEBITO
+                    SUM(MVO.VALOR) AS DEBITO
                 FROM
-                    FACMUTUO.CC_MVOPEN
+                    FACMUTUO.CC_MVOPEN MVO
+                    INNER JOIN FACMUTUO.CC_CADASSOC CC_A ON MVO.CONTAC = CC_A.CONTAC
+                    INNER JOIN FACMUTUO.C_CAD C ON CC_A.CONTA = C.CONTA AND C.CPF || C.CGC LIKE '241.408.489-87'
                 WHERE
-                    DATA BETWEEN '05/09/2023'
+                    MVO.DATA BETWEEN '05/09/2023'
                     AND '04/12/2023'
-                    AND DC = 'D'
+                    AND MVO.DC = 'D'
                 GROUP BY
-                    CONTAC
+                    MVO.CONTAC
                 UNION
                 ALL
                 SELECT
-                    CONTAC,
+                    MVC.CONTAC,
                     0 AS CREDITO,
-                    SUM(VALOR) AS DEBITO
+                    SUM(MVC.VALOR) AS DEBITO
                 FROM
-                    FACMUTUO.CC_MVCLOS
+                    FACMUTUO.CC_MVCLOS MVC
+                    INNER JOIN FACMUTUO.CC_CADASSOC CC_A ON MVC.CONTAC = CC_A.CONTAC
+                    INNER JOIN FACMUTUO.C_CAD C ON CC_A.CONTA = C.CONTA AND C.CPF || C.CGC LIKE '241.408.489-87'
                 WHERE
-                    DATA BETWEEN '05/09/2023'
+                    MVC.DATA BETWEEN '05/09/2023'
                     AND '04/12/2023'
-                    AND DC = 'D'
+                    AND MVC.DC = 'D'
                 GROUP BY
-                    CONTAC
+                    MVC.CONTAC
             )
         GROUP BY
             CONTAC
