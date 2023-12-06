@@ -205,19 +205,28 @@ FROM
                             INNER JOIN FACMUTUO.E_ASSOC_GPSOL GA ON G.ID_GPSOL = GA.ID_GPSOL
                             INNER JOIN (
                                 SELECT
-                                    CA.CONTA,
+                                    DISTINCT CA.CONTA,
                                     SUM(
                                         FACMUTUO.FACCOR_FUNCTIONS.PEGASALDOAD(CA.CONTAC, SYSDATE) + FACMUTUO.FACCOR_FUNCTIONS.LIMITE_CHESP(CA.CONTAC, SYSDATE)
                                     ) AS SALDO
                                 FROM
                                     FACMUTUO.CC_CADASSOC CA
+                                    LEFT JOIN FACMUTUO.E_ASSOC_GPSOL GP ON CA.CONTA = GP.CONTA
+                                    INNER JOIN (
+                                        SELECT
+                                            GP.ID_GPSOL
+                                        FROM
+                                            FACMUTUO.E_ASSOC_GPSOL GP
+                                            LEFT JOIN FACMUTUO.C_CAD C ON GP.CONTA = C.CONTA
+                                        WHERE
+                                            C.CPF || C.CGC LIKE '241.408.489-87'
+                                    ) F_GP ON GP.ID_GPSOL = F_GP.ID_GPSOL -- FILTRO POR DOCUMENTO NA SOMA PRA OTIMIZAR O TEMPO DE EXECUÇÃO
+                                    -- SOMA APENAS OS SALDOS DE QUEM PERTENCE AO GRUPO SOLIDARIO DA PESSOA COM O DOCUMENTO INFORMADO ACIMA
                                 WHERE
                                     CA.TITULAR = 'T'
-                                    AND CA.CONTA LIKE '049840000'
                                 GROUP BY
                                     CA.CONTA
                             ) CC ON GA.CONTA = CC.CONTA
-                        WHERE CC.CONTA LIKE '049840000'
                         GROUP BY
                             G.ID_GPSOL,
                             G.DESCR_GRUPO,
@@ -298,7 +307,7 @@ FROM
     ) T ON F.CONTAC = T.CONTAC
 WHERE
     C.ASSOCIADO = 'T'
-    AND C.SITUACAO = 'Normal' --AND C.CPF || C.CGC LIKE '020.013.849-98'
-    AND C.CONTA LIKE '049840000'
+    AND C.SITUACAO = 'Normal'
+    AND C.CPF || C.CGC LIKE '241.408.489-87'
 ORDER BY
-    P.DESCR_GRUPO --C.ADM_COOP DESC
+    C.NOME
