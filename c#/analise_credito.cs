@@ -293,5 +293,6 @@ stbSelecao.AppendLine("WHERE");
 stbSelecao.AppendLine("    C.ASSOCIADO = 'T'");
 stbSelecao.AppendLine("    AND C.SITUACAO = 'Normal'");
 stbSelecao.AppendLine($"    AND C.CPF || C.CGC LIKE '{pDoc}'");
+stbSelecao.AppendLine($"    AND G.CONTAC LIKE '{pCC}'");
 stbSelecao.AppendLine("ORDER BY");
 stbSelecao.AppendLine("    C.NOME");
