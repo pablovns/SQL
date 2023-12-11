@@ -199,7 +199,7 @@ FROM
                                     FACMUTUO.E_ASSOC_GPSOL GP
                                     LEFT JOIN FACMUTUO.C_CAD C ON GP.CONTA = C.CONTA
                                 WHERE
-                                    C.CPF || C.CGC LIKE '241.408.489-87'
+                                    C.CPF || C.CGC LIKE '899.955.039-72'
                             ) F_GP ON GP.ID_GPSOL = F_GP.ID_GPSOL -- FILTRO POR DOCUMENTO NA SOMA PRA OTIMIZAR O TEMPO DE EXECUÇÃO
                             -- SOMA APENAS OS SALDOS DE QUEM PERTENCE AO GRUPO SOLIDARIO DA PESSOA COM O DOCUMENTO INFORMADO ACIMA
                         WHERE
@@ -229,8 +229,8 @@ FROM
                     0 AS DEBITO
                 FROM
                     FACMUTUO.CC_MVOPEN MVO
-                    INNER JOIN FACMUTUO.CC_CADASSOC CC_A ON MVO.CONTAC = CC_A.CONTAC
-                    INNER JOIN FACMUTUO.C_CAD C ON CC_A.CONTA = C.CONTA AND C.CPF || C.CGC LIKE '241.408.489-87'
+                    INNER JOIN FACMUTUO.CC_CADASSOC CC_A ON MVO.CONTAC = CC_A.CONTAC AND CC_A.CONTAC LIKE '016612-0'
+                    INNER JOIN FACMUTUO.C_CAD C ON CC_A.CONTA = C.CONTA AND C.CPF || C.CGC LIKE '899.955.039-72'
                 WHERE
                     MVO.DATA BETWEEN '05/09/2023'
                     AND '04/12/2023'
@@ -245,8 +245,8 @@ FROM
                     0 AS DEBITO
                 FROM
                     FACMUTUO.CC_MVCLOS MVC
-                    INNER JOIN FACMUTUO.CC_CADASSOC CC_A ON MVC.CONTAC = CC_A.CONTAC
-                    INNER JOIN FACMUTUO.C_CAD C ON CC_A.CONTA = C.CONTA AND C.CPF || C.CGC LIKE '241.408.489-87'
+                    INNER JOIN FACMUTUO.CC_CADASSOC CC_A ON MVC.CONTAC = CC_A.CONTAC AND CC_A.CONTAC LIKE '016612-0'
+                    INNER JOIN FACMUTUO.C_CAD C ON CC_A.CONTA = C.CONTA AND C.CPF || C.CGC LIKE '899.955.039-72'
                 WHERE
                     MVC.DATA BETWEEN '05/09/2023'
                     AND '04/12/2023'
@@ -261,8 +261,8 @@ FROM
                     SUM(MVO.VALOR) AS DEBITO
                 FROM
                     FACMUTUO.CC_MVOPEN MVO
-                    INNER JOIN FACMUTUO.CC_CADASSOC CC_A ON MVO.CONTAC = CC_A.CONTAC
-                    INNER JOIN FACMUTUO.C_CAD C ON CC_A.CONTA = C.CONTA AND C.CPF || C.CGC LIKE '241.408.489-87'
+                    INNER JOIN FACMUTUO.CC_CADASSOC CC_A ON MVO.CONTAC = CC_A.CONTAC AND CC_A.CONTAC LIKE '016612-0'
+                    INNER JOIN FACMUTUO.C_CAD C ON CC_A.CONTA = C.CONTA AND C.CPF || C.CGC LIKE '899.955.039-72'
                 WHERE
                     MVO.DATA BETWEEN '05/09/2023'
                     AND '04/12/2023'
@@ -277,8 +277,8 @@ FROM
                     SUM(MVC.VALOR) AS DEBITO
                 FROM
                     FACMUTUO.CC_MVCLOS MVC
-                    INNER JOIN FACMUTUO.CC_CADASSOC CC_A ON MVC.CONTAC = CC_A.CONTAC
-                    INNER JOIN FACMUTUO.C_CAD C ON CC_A.CONTA = C.CONTA AND C.CPF || C.CGC LIKE '241.408.489-87'
+                    INNER JOIN FACMUTUO.CC_CADASSOC CC_A ON MVC.CONTAC = CC_A.CONTAC AND CC_A.CONTAC LIKE '016612-0'
+                    INNER JOIN FACMUTUO.C_CAD C ON CC_A.CONTA = C.CONTA AND C.CPF || C.CGC LIKE '899.955.039-72'
                 WHERE
                     MVC.DATA BETWEEN '05/09/2023'
                     AND '04/12/2023'
@@ -292,6 +292,7 @@ FROM
 WHERE
     C.ASSOCIADO = 'T'
     AND C.SITUACAO = 'Normal'
-    AND C.CPF || C.CGC LIKE '241.408.489-87'
+    AND C.CPF || C.CGC LIKE '899.955.039-72'
+    AND G.CONTAC LIKE '016612-0'
 ORDER BY
     C.NOME
