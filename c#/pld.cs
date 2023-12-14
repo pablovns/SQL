@@ -81,29 +81,23 @@ public string RetornaPld(string pDataIni, string pDataFim, string pRiscoAlto, st
     stbSelecao.AppendLine(") MOV ON UNI.CONTAC = MOV.CONTAC");
     stbSelecao.AppendLine("WHERE");
     stbSelecao.AppendLine("CC_A.TITULAR = 'T'");
-    // stbSelecao.AppendLine("AND GER.APELIDO LIKE '%%'");
-    // stbSelecao.AppendLine("AND UNI.CONTAC LIKE '%%'");
-    // stbSelecao.AppendLine("AND (");
-    // stbSelecao.AppendLine("A.COD_PERFIL IN (11, 13, 14, 15)");
-    // stbSelecao.AppendLine("OR C_PERFIL.COD_PERFIL IN (11, 13, 14, 15)");
-    // stbSelecao.AppendLine(")");
-    if (!string.IsNullOrEmpty(pGerente));
-    {;
-        stbSelecao.AppendLine($"AND GER.APELIDO LIKE '{pGerente}'");;
+    if (!string.IsNullOrEmpty(pGerente))
+    {
+        stbSelecao.AppendLine($"AND GER.APELIDO LIKE '{pGerente}'");
     };
-    if (!string.IsNullOrEmpty(pRiscoAlto));
-    {;
-        stbSelecao.AppendLine("AND (");;
-        stbSelecao.AppendLine("A.COD_PERFIL IN (11, 13, 14, 15)");;
-        stbSelecao.AppendLine("OR C_PERFIL.COD_PERFIL IN (11, 13, 14, 15)");;
-        stbSelecao.AppendLine(")");;
+    if (!string.IsNullOrEmpty(pRiscoAlto)) 
+    {
+        stbSelecao.AppendLine("AND (");
+        stbSelecao.AppendLine("A.COD_PERFIL IN (11, 13, 14, 15)");
+        stbSelecao.AppendLine("OR C_PERFIL.COD_PERFIL IN (11, 13, 14, 15)");
+        stbSelecao.AppendLine(")");
     };
-    if (!string.IsNullOrEmpty(pRiscoBaixo));
-    {;
-        stbSelecao.AppendLine("AND (");;
-        stbSelecao.AppendLine("A.COD_PERFIL = 16");;
-        stbSelecao.AppendLine("OR C_PERFIL.COD_PERFIL = 16");;
-        stbSelecao.AppendLine(")");;
+    if (!string.IsNullOrEmpty(pRiscoBaixo)) 
+    {
+        stbSelecao.AppendLine("AND (");
+        stbSelecao.AppendLine("A.COD_PERFIL = 16");
+        stbSelecao.AppendLine("OR C_PERFIL.COD_PERFIL = 16");
+        stbSelecao.AppendLine(")");
     };
     stbSelecao.AppendLine("AND (");
     stbSelecao.AppendLine("(");
