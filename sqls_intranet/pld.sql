@@ -50,6 +50,7 @@ FROM
                                         WHERE
                                             ESTORNADO = 'F'
                                             AND COMPENSADO = 'T'
+                                            AND COD_LANC != '2004'
                                             AND COD_LANC != '2016'
                                             AND COD_LANC != '4004'
                                             AND COD_LANC != '3004'
@@ -70,6 +71,7 @@ FROM
                                         WHERE
                                             ESTORNADO = 'F'
                                             AND COMPENSADO = 'T'
+                                            AND COD_LANC != '2004'
                                             AND COD_LANC != '2016'
                                             AND COD_LANC != '4004'
                                             AND COD_LANC != '3004'
