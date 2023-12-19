@@ -1,0 +1,392 @@
+[
+  {
+    "sessao": "Dados do solicitante",
+    "ordem": 0,
+    "campos": [
+      {
+        "tabela": "C_CAD",
+        "nome": "Nome Completo (Sem Abreviação e Sem caracteres especiais)",
+        "coluna": "NOME",
+        "valor": "TESTE",
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "DADOS_DO_SOLICITANTE.NOME_COMPLETO__SEM_ABREVIACAO_E_SEM_CARACTERES_ESPECIAIS_",
+        "ordem": 1,
+        "idDoCampo": 1,
+        "componente": "input-textbox"
+      },
+      {
+        "tabela": "C_CAD",
+        "nome": "CPF",
+        "coluna": "CPF",
+        "valor": "060.554.019-59",
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "DADOS_DO_SOLICITANTE.CPF",
+        "ordem": 2,
+        "idDoCampo": 2,
+        "componente": "input-cpfcnpjandextra"
+      },
+      {
+        "tabela": "C_CAD",
+        "nome": "Tipo de documento de identificação",
+        "coluna": "TIPODOCIDT",
+        "valor": "0",
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "DADOS_DO_SOLICITANTE.TIPO_DE_DOCUMENTO_DE_IDENTIFICACAO",
+        "ordem": 3,
+        "idDoCampo": 43,
+        "componente": "input-select"
+      },
+      {
+        "tabela": "C_CAD",
+        "nome": "Nº Documento de Identificação",
+        "coluna": "CI",
+        "valor": "1",
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "DADOS_DO_SOLICITANTE.Nº_DOCUMENTO_DE_IDENTIFICACAO",
+        "ordem": 3,
+        "idDoCampo": 4,
+        "componente": "input-textbox"
+      },
+      {
+        "tabela": "C_CAD",
+        "nome": "Órgão emissor do Documento de Identificação",
+        "coluna": "ORG_EXP",
+        "valor": "1",
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "DADOS_DO_SOLICITANTE.ORGAO_EMISSOR_DO_DOCUMENTO_DE_IDENTIFICACAO",
+        "ordem": 4,
+        "idDoCampo": 24,
+        "componente": "input-textbox"
+      },
+      {
+        "tabela": "C_CAD",
+        "nome": "UF de expedição do Documento Identificação",
+        "coluna": "UFORG",
+        "valor": "AC",
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "DADOS_DO_SOLICITANTE.UF_DE_EXPEDICAO_DO_DOCUMENTO_IDENTIFICACAO",
+        "ordem": 5,
+        "idDoCampo": 25,
+        "componente": "input-select"
+      },
+      {
+        "tabela": "C_CAD",
+        "nome": "Data de expedição do Documento Identif.",
+        "coluna": "DT_CI",
+        "valor": "00/00/0011",
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "DADOS_DO_SOLICITANTE.DATA_DE_EXPEDICAO_DO_DOCUMENTO_IDENTIF.",
+        "ordem": 5,
+        "idDoCampo": 26,
+        "componente": "input-mask"
+      },
+      {
+        "tabela": "C_CAD",
+        "nome": "Estado civil",
+        "coluna": "EST_CIVIL",
+        "valor": "CASADO",
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "DADOS_DO_SOLICITANTE.ESTADO_CIVIL",
+        "ordem": 6,
+        "idDoCampo": 6,
+        "componente": "input-select"
+      },
+      {
+        "tabela": "C_CAD",
+        "nome": "Gênero",
+        "coluna": "SEXO",
+        "valor": "F",
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "DADOS_DO_SOLICITANTE.GENERO",
+        "ordem": 6,
+        "idDoCampo": 5,
+        "componente": "input-select"
+      },
+      {
+        "tabela": "C_CAD",
+        "nome": "Data de nascimento",
+        "coluna": "NASCIMENTO",
+        "valor": "15/05/2000",
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "DADOS_DO_SOLICITANTE.DATA_DE_NASCIMENTO",
+        "ordem": 7,
+        "idDoCampo": 7,
+        "componente": "input-mask"
+      },
+      {
+        "tabela": "C_CAD",
+        "nome": "Naturalidade",
+        "coluna": "NATURALIDADE",
+        "valor": "111",
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "DADOS_DO_SOLICITANTE.NATURALIDADE",
+        "ordem": 8,
+        "idDoCampo": 44,
+        "componente": "input-textbox"
+      },
+      {
+        "tabela": "C_CAD",
+        "nome": "Nacionalidade",
+        "coluna": "NACIONALIDADE",
+        "valor": "1111",
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "DADOS_DO_SOLICITANTE.NACIONALIDADE",
+        "ordem": 9,
+        "idDoCampo": 23,
+        "componente": "input-textbox"
+      },
+      {
+        "tabela": "C_CAD",
+        "nome": "Nome do cônjuge",
+        "coluna": "CONJUGUE",
+        "valor": null,
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "DADOS_DO_SOLICITANTE.NOME_DO_CONJUGE",
+        "ordem": 10,
+        "idDoCampo": 27,
+        "componente": "input-textbox"
+      },
+      {
+        "tabela": "C_CAD",
+        "nome": "CPF do cônjuge",
+        "coluna": "CPFCONJUGE",
+        "valor": null,
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "DADOS_DO_SOLICITANTE.CPF_DO_CONJUGE",
+        "ordem": 11,
+        "idDoCampo": 28,
+        "componente": "input-cpfcnpjandextra"
+      }
+    ]
+  },
+  {
+    "sessao": "Dados Cadastrais",
+    "ordem": 0,
+    "campos": [
+      {
+        "tabela": "C_SOCIO",
+        "nome": "Profissão",
+        "coluna": "PROFISSAO",
+        "valor": "TESTE",
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "DADOS_CADASTRAIS.PROFISSAO",
+        "ordem": 10,
+        "idDoCampo": 78,
+        "componente": "input-textbox"
+      },
+      {
+        "tabela": "C_CADUNI",
+        "nome": "Cargo",
+        "coluna": "CARGO",
+        "valor": "1",
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "DADOS_CADASTRAIS.CARGO",
+        "ordem": 11,
+        "idDoCampo": 30,
+        "componente": "input-textbox"
+      },
+      {
+        "tabela": "C_CADUNI",
+        "nome": "Salário",
+        "coluna": "SALARIO",
+        "valor": "10,00",
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "DADOS_CADASTRAIS.SALARIO",
+        "ordem": 12,
+        "idDoCampo": 31,
+        "componente": "input-currency"
+      }
+    ]
+  },
+  {
+    "sessao": "Filiação",
+    "ordem": 1,
+    "campos": [
+      {
+        "tabela": "C_CAD",
+        "nome": "Nome do Pai",
+        "coluna": "PAI",
+        "valor": null,
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "FILIACAO.NOME_DO_PAI",
+        "ordem": 1,
+        "idDoCampo": 17,
+        "componente": "input-textbox"
+      },
+      {
+        "tabela": "C_CAD",
+        "nome": "Nome do Mãe",
+        "coluna": "MAE",
+        "valor": "TEST",
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "FILIACAO.NOME_DO_MAE",
+        "ordem": 2,
+        "idDoCampo": 18,
+        "componente": "input-textbox"
+      }
+    ]
+  },
+  {
+    "sessao": "Dados de contato",
+    "ordem": 2,
+    "campos": [
+      {
+        "tabela": "C_CAD",
+        "nome": "E-mail",
+        "coluna": "EMAIL",
+        "valor": null,
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "DADOS_DE_CONTATO.E-MAIL",
+        "ordem": 1,
+        "idDoCampo": 8,
+        "componente": "input-email"
+      },
+      {
+        "tabela": "C_CAD",
+        "nome": "Telefone fixo",
+        "coluna": "TEL1",
+        "valor": "",
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "DADOS_DE_CONTATO.TELEFONE_FIXO",
+        "ordem": 2,
+        "idDoCampo": 9,
+        "componente": "input-tel"
+      },
+      {
+        "tabela": "C_CAD",
+        "nome": "Telefone celular",
+        "coluna": "TEL_CEL",
+        "valor": "",
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "DADOS_DE_CONTATO.TELEFONE_CELULAR",
+        "ordem": 3,
+        "idDoCampo": 10,
+        "componente": "input-tel"
+      },
+      {
+        "tabela": "C_CAD",
+        "nome": "Telefone whatsapp",
+        "coluna": "TEL_WHATSAPP",
+        "valor": "",
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "DADOS_DE_CONTATO.TELEFONE_WHATSAPP",
+        "ordem": 4,
+        "idDoCampo": 11,
+        "componente": "input-tel"
+      }
+    ]
+  },
+  {
+    "sessao": "Endereço",
+    "ordem": 2,
+    "campos": [
+      {
+        "tabela": "C_CAD",
+        "nome": "Endereço",
+        "coluna": "ENDERECO",
+        "valor": "TESTE",
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "ENDERECO.ENDERECO",
+        "ordem": 1,
+        "idDoCampo": 12,
+        "componente": "input-textbox"
+      },
+      {
+        "tabela": "C_CAD",
+        "nome": "Número",
+        "coluna": "END_NUM",
+        "valor": "00350",
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "ENDERECO.NUMERO",
+        "ordem": 2,
+        "idDoCampo": 21,
+        "componente": "input-mask"
+      },
+      {
+        "tabela": "C_CAD",
+        "nome": "Complemento (Apto, Bloco, etc)",
+        "coluna": "COMPL_END",
+        "valor": null,
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "ENDERECO.COMPLEMENTO__APTO,_BLOCO,_ETC_",
+        "ordem": 3,
+        "idDoCampo": 22,
+        "componente": "input-textbox"
+      },
+      {
+        "tabela": "V_CAD_PESSOA",
+        "nome": "Bairro",
+        "coluna": "NOME_BAIRRO",
+        "valor": "VILA PORTES",
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "ENDERECO.BAIRRO",
+        "ordem": 4,
+        "idDoCampo": 35,
+        "componente": "input-autocomplete-select"
+      },
+      {
+        "tabela": "C_CAD",
+        "nome": "Cep",
+        "coluna": "CEP",
+        "valor": "85803-490",
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "ENDERECO.CEP",
+        "ordem": 5,
+        "idDoCampo": 14,
+        "componente": "input-mask"
+      },
+      {
+        "tabela": "V_CAD_PESSOA",
+        "nome": "Cidade",
+        "coluna": "NOME_CIDADE",
+        "valor": "CASCAVEL",
+        "virtual": false,
+        "dados": null,
+        "variavelDoTermo": "ENDERECO.CIDADE",
+        "ordem": 6,
+        "idDoCampo": 20,
+        "componente": "input-autocomplete-select"
+      },
+      {
+        "tabela": "V_CAD_PESSOA",
+        "nome": "Estado",
+        "coluna": "UF_END",
+        "valor": "PR",
+        "virtual": true,
+        "dados": null,
+        "variavelDoTermo": "ENDERECO.ESTADO",
+        "ordem": 7,
+        "idDoCampo": 36,
+        "componente": "input-select"
+      }
+    ]
+  }
+]
