@@ -10,10 +10,11 @@ FROM
         SELECT
             *
         FROM
-            CC_MVOPEN 
+            CC_MVOPEN
         WHERE
             COD_LANC = '1024'
             AND ESTORNADO = 'F'
+            AND DATA BETWEEN :1DATA_INI AND :2DATA_FIM
         UNION
         ALL
         SELECT
@@ -23,10 +24,10 @@ FROM
         WHERE
             COD_LANC = '1024'
             AND ESTORNADO = 'F'
+            AND DATA BETWEEN :1DATA_INI AND :2DATA_FIM
     ) MOV
-    LEFT JOIN CC_CADASSOC CC_A ON MOV.CONTAC = CC_A.CONTAC
+    LEFT JOIN CC_CADASSOC CC_A ON MOV.CONTAC = CC_A.CONTAC AND CC_A.TITULAR = 'T'
     LEFT JOIN C_CAD C ON CC_A.CONTA = C.CONTA
-    WHERE CC_A.TITULAR = 'T'
 ORDER BY
     ASSOCIADO,
     DATA,
