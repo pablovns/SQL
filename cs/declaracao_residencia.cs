@@ -1,4 +1,3 @@
-
 public string RetornaSQL()
 {
     StringBuilder stbSql = new StringBuilder();

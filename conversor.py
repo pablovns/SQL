@@ -7,8 +7,7 @@ def converter_sql_cs(arquivo_sql, arquivo_cs):
         for linha in arquivo_entrada:
             conteudo_sql += f"stbSelecao.AppendLine(\"{linha.strip()}\");\n\t"
 
-    conteudo_completo = f"""
-public string RetornaSQL()
+    conteudo_completo = f"""public string RetornaSQL()
 {{
     StringBuilder stbSql = new StringBuilder();
 
