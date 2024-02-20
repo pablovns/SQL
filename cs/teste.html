@@ -1,0 +1,31 @@
+<body style='font-family: Maven Pro; font-weight: normal;'>
+    <br><p style='font-weight: bold;'><span style='font-size:25px; color:#00FF00;'>&#9632;</span>Novo chamado</p><br>
+    <p>Chamado aberto pelo usuário {pStrSolicitante}, por favor verifique o mesmo no Service Desk.</p>
+</body>
+
+<body style='font-family: Maven Pro; font-weight: normal;'>
+    <br><p style='font-weight: bold;'><span style='font-size:25px; color:#00FF00;'>&#9632;</span>Chamado direcionado</p><br><br>
+    Um chamado foi direcionado para você, por favor verifique o mesmo no Service Desk.<br><br>
+    Solicitante: {pStrSolicitante}<br>
+    Solicitação: {pStrServicoSolicitado}<br>
+    Urgência: {pStrUrgencia}<br><br>
+    Descrição: <br>{pStrDescricao.Replace("\r\n", "<br>")}<br><br>
+</body>
+
+<body style='font-family: Maven Pro; font-weight: normal;'>
+    <br><p style='font-weight: bold;'><span style='font-size:25px; color:#FFD700;'>&#9632;</span>Chamado atualizado</p><br><br>
+    O chamado foi atualizado!<br><br>
+    Solicitação: {pStrServicoSolicitado}<br>
+    Urgência: {pStrUrgencia}<br>
+    Descrição: <br>{pStrDescricao.Replace("\r\n", "<br>")}<br><br>
+    Atualização: {pStrMensagemAtualizacao}
+</body>
+
+<body style='font-family: Maven Pro; font-weight: normal;'>
+    <br><p style='font-weight: bold;'><span style='font-size:25px; color:#000080;'>&#9632;</span>Chamado concluído</p><br><br>
+    O chamado foi Concluído!<br><br>
+    Solicitação: {pStrServicoSolicitado}<br>
+    Urgência: {pStrUrgencia}<br><br>
+    Descrição: <br>{pStrDescricao.Replace("\r\n", "<br>")}<br><br>
+    Solução: {pStrSolucao}<br>
+</body>

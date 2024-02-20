@@ -1,0 +1,16 @@
+stbSql.AppendLine("SELECT");
+stbSql.AppendLine("    C.CONTA,");
+stbSql.AppendLine("    C.NOME ASSOCIADO,");
+stbSql.AppendLine("    C.ADM_COOP ADMISSAO,");
+stbSql.AppendLine("    C.FISICA,");
+stbSql.AppendLine("    C.CPF || C.CGC AS CPF_CNPJ,");
+stbSql.AppendLine("    CC.CONTAC");
+stbSql.AppendLine("FROM");
+stbSql.AppendLine("    FACMUTUO.C_CAD C");
+stbSql.AppendLine("    LEFT JOIN FACMUTUO.CC_CADASSOC CC_A ON C.CONTA = CC_A.CONTA AND CC_A.TITULAR = 'T'");
+stbSql.AppendLine("    LEFT JOIN FACMUTUO.CC_CAD CC ON CC_A.CONTAC = CC.CONTAC");
+stbSql.AppendLine("WHERE");
+stbSql.AppendLine("    C.ASSOCIADO = 'T'");
+stbSql.AppendLine("    AND C.DEMISSAO IS NULL");
+stbSql.AppendLine("ORDER BY ");
+stbSql.AppendLine("    C.NOME");
